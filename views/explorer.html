@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+   <head>
+      <title>explorer</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400" rel="stylesheet" type="text/css">
+      <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
+      <!-- CSS Libs-->
+      <link rel="stylesheet" type="text/css" href="resources/lib/css/bootstrap.min.css">
+     
+      <link rel="stylesheet" type="text/css" href="resources/lib/css/bootstrap.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <!-- CSS App-->
+      
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400" rel="stylesheet" type="text/css">
+      <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
+      <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+      <script type="text/javascript" src="js/angular/angular.js"></script>
+      <script type="text/javascript" src="js/angular/angular-route.js"></script>
+      <script type="text/javascript" src="js/bootbox.min.js"></script>
+       <script type="text/javascript" src="js/dirPagination.js"></script>
+      <script type="text/javascript" src="js/app.js"></script>
+     
+      <script type="text/javascript" src="js/controllers/explorer_Controller_1.js"></script>
+     
+      <script type="text/javascript" src="js/web3.js"></script>
+      <script type="text/javascript" src="js/web3.min.js"></script>
+      <script type="text/javascript" src="js/conf.js"></script>
+      <script type="text/javascript" src="js/bignumber.js"></script>
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="resources/lib/js/jquery.min.js"></script>
+      <script type="text/javascript" src="resources/lib/js/bootstrap.min.js"></script>
+      <script data-require="angular-ui@*" data-semver="0.4.0" src="//rawgithub.com/angular-ui/angular-ui/master/build/angular-ui.js" context="anonymous"></script>
+      <style>
+         @media screen and (min-width: 868px) {
+         .modal-dialog {
+         width: 600px;
+         /* New width for default modal */
+         }
+         .modal-sm {
+         width: 350px;
+         /* New width for small modal */
+         }
+         }
+         @media screen and (min-width: 992px) {
+         .modal-lg {
+         width: 950px;
+         /* New width for large modal */
+         }
+         }
+         .img-responsive {
+         border-radius: 100%;
+         }
+         .btn-primary{
+         background-color: rgba(5, 43, 107, 0.33);
+         }
+         .hoversd li a:hover {
+         background-color: black;
+      </style>
+   </head>
+   <body ng-controller="explorerController1" ng-init="submit();">
+     
+      <div class="container-fluid">
+          <form>
+         <div class="form-group">
+            <div class="col-sm-12">
+               <div class="labelbigcss">
+                  <h4>
+                  <b>Blockchain Explorer</b></font></b>
+                  <h4>
+               </div>
+            </div>
+         </div>
+         <div class="form-group">
+            <div class="col-sm-12">
+               <div class="panel panel-primary">
+                  <div class="panel-heading"><b>Ethereum Recent Blocks</b></div>
+                  <div class="panel-body">
+                     <table class="table table-striped" style="background-color:aliceblue;">
+                        <thead style="background-color:antiquewhite;">
+                            <tr>
+                                <th>Total Transaction</th>
+                                <th>Pending Block Number</th>
+                                <th>Pending Transaction</th>
+                                <th>Discarded Transaction</th>
+                                <th>Time</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                           <tr>
+                            
+                             <td>{{totalTransaction}}</td>
+                             <td>{{pendingBlock}}</td>
+                             <td></td>
+                              <td></td>
+                             <td>{{timestamp}}</td>
+                           
+                           </tr>
+                       </tbody>
+                    </table>
+                  
+                   
+                  </div>
+               </div>
+
+            </div>
+         </div>
+
+   </div>
+   </form>
+  
+         </div>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,564 @@
+<div ng-controller="manufacturerController">
+   <div class="panel-group">
+      <div class="pull-right" style="margin-top:2px;">
+         <button type ="button" id = "updateProduct" class="btn btn-primary btn-md" data-toggle="modal" ng-click="populateRmIdsForUpdate();">Update Product</button>
+        <button type ="button" id = "createProduct" class="btn btn-primary btn-md" data-toggle="modal" ng-click="populateProductIDAndRMIds();populateProductPallet()">Create Product</button>
+		   
+      </div>
+      <div class="panel panel-primary">
+         <div class="panel-heading">Products</div>
+         <div class="panel-body">
+            <table class="table table-striped" style="background-color:aliceblue;">
+               <thead style="background-color:antiquewhite;">
+                  <tr>
+                     <th>Select</th>
+                     <th>Product Barcode</th>
+                     <th>Product Name</th>
+                     <th>Material IDs</th>
+                     <th>Manufacturing Location</th>
+                     <th>Manufacturing Date</th>
+                     <th>Manufacturing Zip Code</th>
+                     <th>Pallet Barcode</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="product in products | orderBy :'-productBarCode'">
+                     <td><input type="radio" ng-click="selectProduct(product);palletStatusCheck(product.palletBarCode);" name="yourPORadio1" ></td>
+
+                     <td><a href="" data-toggle="modal" data-target = "#productInfoModal" ng-click = "selectProduct(product);" id="productInfo">{{product.productBarCode}}</a></td>
+                   
+                     <td>{{product.productName}}</td>
+                     <td>{{product.materialIDs}}</td>
+                     <td>{{product.manufacturingLoc}}</td>
+                     <td>{{product.manufacturingDate}}</td>
+                     <td>{{product.manufacturingZipCode}}</td>
+                     <td>{{product.palletBarCode}}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+<div class="modal fade" id="myModal" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkcyan;">
+                    <button type="button" class="close">&times;</button>
+                    <h4 class="modal-title">Update Bill</h4>
+                </div>
+                <div class="modal-body" style="background-color:azure;">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="supplier" class="col-sm-3 control-label">Bill of Supply ID:</label>
+                            <div class="col-sm-9">
+                                <input id="billOfSupplyID" type="text" ng-model="Bill.materialId" required="" disabled="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier" class="col-sm-3 control-label">Name:</label>
+                            <div class="col-sm-9">
+                                <input id="name" type="text" ng-model="Bill.name" required="" class="form-control" disabled="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier" class="col-sm-3 control-label">Quantity:</label>
+                            <div class="col-sm-9">
+                                <input id="quantity" type="text" ng-model="Bill.quantity" required="" class="form-control" disabled=""> (In Meters)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier" class="col-sm-3 control-label">Origin:</label>
+                            <div class="col-sm-9">
+                                <input id="origin" type="text" ng-model="Bill.origin" required="" class="form-control" disabled="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier" class="col-sm-3 control-label">Shipped To:</label>
+                            <div class="col-sm-9">
+                            <input id="shippedto" type="text" ng-model="Bill.shippedTo" required="" class="form-control" disabled="">
+                              
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-md-3 control-label">Status:</label>
+                            <div class="col-md-9">
+                            <select id="sel1" ng-model="Bill.status" required class="form-control">
+                                    <option>Processed</option>
+                                    <option>Consumed</option>
+                                </select>
+                              
+                            </div>
+                              
+                        </div>
+                        <div class="form-group">
+                            <label for="comments" class="col-md-3 control-label">Comments:</label>
+                            <div class="col-md-9">
+                                <textarea id="comments" rows="2" ng-model="Bill.comments" required="" class="form-control" disabled=""></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" ng-click="updateBill();">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+<div class="modal fade" id="productInfoModal" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header" style="background-color:darkcyan;">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Product Details</h4>
+               </div>
+               <div class="modal-body" style="background-color:azure;">
+                  <table class="table table-striped table-hover">
+                     <thead>
+                        <tr>
+                        <th style="width: 45%;">Pallet Barcode:</th>
+                        <td>{{product.palletBarCode}}</td>
+                      </tr>
+                      <tr>
+                        <th>Product Barcode:</th>
+                        <td>{{product.productBarCode}}</td>
+                      </tr>
+                     
+                      <tr>
+                        <th>Product Name:</th>
+                        <td>{{product.productName}}</td>
+                      </tr>
+                       <tr>
+                        <th>Material IDs:</th>
+                        <td>{{product.materialIDs}}</td>
+                      </tr>
+                      <tr>
+                        <th>Manufacturing Location:</th>
+                        <td>{{product.manufacturingLoc}}</td>
+                      </tr>
+                          <tr>
+                        <th>Manufacturing Date:</th>
+                        <td>{{product.manufacturingDate}}</td>
+                      </tr>
+                        <tr>
+                        <th style="vertical-align: top;">Manufacturing Zip Code:</th>
+                        <td>{{product.manufacturingZipCode}}</td>
+                      </tr>
+                     </thead>
+                  </table>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   <!--Create Product Modal -->
+   <div class="modal fade" id="createProductModal" role="dialog" data-backdrop = "static">
+      <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header" style="background-color:darkcyan;">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Create Product</h4>
+            </div>
+            <div class="modal-body" style="background-color:azure;">
+               <form role="form" class="form-horizontal">
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Product Barcode:</label>
+                     <div class="col-sm-8">
+                        <input id="productBarcodeid" type="text" ng-model="productBarcode" required="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Product Name:</label>
+                     <div class="col-sm-8">
+                        <input id="productNameid" type="text" ng-model="productName" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Material IDs::</label>
+                     <div class="col-sm-8">
+                        <select multiple style="width:48%" ng-model="productMaterialIDs" ng-change="selectedProductMaterialIDs(productMaterialIDs)">
+                           <option ng-repeat="processedMaterialID in processedMaterialIDs">{{processedMaterialID.materialId}}</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Manufacturing Location:</label>
+                     <div class="col-sm-8">   
+                        <input id="manufacturingLocationid" type="text" ng-model="manufacturingLocation" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Manufacturing Date:</label>
+                     <div class="col-sm-8">
+                        <input id="manufacturingDateid" type="date" ng-model="manufacturingDate" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Zip Code:</label>
+                     <div class="col-sm-8">
+                        <input id="manufacturingZipCodeid" type="text" ng-model="manufacturingZipCode" required="" class="form-control">
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               
+			    <button type="button" class="btn btn-info" ng-click="createProduct();">Submit</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal fade" id="updateProductModal" role="dialog" data-backdrop = "static">
+      <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header" style="background-color:darkcyan;">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Update Product</h4>
+            </div>
+            <div class="modal-body" style="background-color:azure;">
+               <form role="form" class="form-horizontal">
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Product Barcode:</label>
+                     <div class="col-sm-8">
+                        <input id="productBarcodeid" type="text" ng-model="product.productBarCode" required="" disabled="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Product Name:</label>
+                     <div class="col-sm-8">
+                        <input id="productNameid" type="text" ng-model="product.productName" required="" class="form-control">
+                     </div>
+                  </div>
+              
+                  <div class="form-group">
+                     <label for="materialIDs:" class="col-sm-4 control-label">Material IDs:</label>
+                     <div class="col-sm-8">
+                        <input id="materialIDs" type="text" ng-model="product.materialIDs" required="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Manufacturing Location:</label>
+                     <div class="col-sm-8">
+                        <input id="manufacturingLocationid" type="text" ng-model="product.manufacturingLoc" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Manufacturing Date:</label>
+                     <div class="col-sm-8">
+                        <input id="manufacturingDateid" type="date" ng-model="product.manufacturingDate" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Zip Code:</label>
+                     <div class="col-sm-8">
+                        <input id="manufacturingZipCodeid" type="text" ng-model="product.manufacturingZipCode" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Pallet Barcode:</label>
+                     <div class="col-sm-8">
+                        <input id="palatteBarcodeid" type="text" ng-model="product.palletBarCode" disabled="" required="" class="form-control">
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-info" ng-click="updateProduct();">Update</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="panel-group">
+      <div class="pull-right" style="margin-top:2px;">
+         <button type ="button" id = "updateShipment" class="btn btn-primary btn-md" data-toggle="modal">Update Shipment</button>
+         <button type ="button" id = "createShipment" class="btn btn-primary btn-md" data-toggle="modal" ng-click="populateShipmentID();">Create Shipment</button>
+      </div>
+      <div class="panel panel-primary">
+         <div class="panel-heading">Shipments</div>
+         <div class="panel-body">
+            <table class="table  table-striped" style="background-color:aliceblue;">
+               <thead style="background-color:antiquewhite;">
+                  <tr>
+                     <th>Select</th>
+                     <th>Shipment ID</th>
+                     <th>Pallet Array</th>
+                   
+                     <th>Pallet Weight</th>
+                     <th>Shipment Status</th>
+                     <th>Shipment Route</th>
+                     <th>Last Processing Point</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="shipment in shipments | orderBy :'-status'">
+                     <td><input type="radio" ng-click = "selectShipment(shipment)" name = "yourPORadio" ng-show="{{shipment.status == 'Shipment Created '}}"></td>
+                     <td><a href="" data-toggle="modal" data-target = "#shipmentInfo" ng-click = "selectShipment(shipment);" id="shippinginfo">{{shipment.shipmentBarCode}}</a></td>
+                    
+                     <td>{{shipment.paletteArray}}</td>
+                     <td>{{shipment.weight}}</td>
+                     <td>{{shipment.status}}</td>
+                     <td>{{shipment.shipmentSequence}}</td>
+                     <td>{{shipment.last_process_point}}</td>
+                    
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+
+  
+   <div class="modal fade" id="createShipmentModal" role="dialog" data-backdrop = "static">
+      <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header" style="background-color:darkcyan;">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Create Shipment</h4>
+            </div>
+            <div class="modal-body" style="background-color:azure;">
+               <form role="form" class="form-horizontal">
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Shipment ID:</label>
+                     <div class="col-sm-8">
+                        <input id="shipmentid" type="text" ng-model="shipmentID" disabled="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                <label for="seller" class="col-sm-4 control-label">Pallet Array:</label>
+                <div class="col-sm-8">
+
+                  <select multiple style="width:48%" ng-model="selectedPallete" ng-blur="selectPalete(selectedPallete)">
+                    <option ng-repeat="x in palletArray">{{x.palletName}}</option>
+                    </select>
+                
+              </div>
+           
+              </div>
+                <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Product Array:</label>
+                     <div class="col-sm-8">
+                       <input id="product" type="text" ng-model="productArray" required="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Pallet Weight:</label>
+                     <div class="col-sm-8">
+                       
+						<input id="palletWeightid" type="text" ng-model="palletWeight" ng-blur="selectWeight(palletWeight)"required="" class="form-control" ng-change=validPalletWeight()>
+                        (In kg) (eg: 200:400)
+                     </div> 
+                  </div>
+                 
+                  <div class="form-group">
+                     <label for="shipmentStatus" class="col-md-4 control-label">Status:</label>
+                     <div class="col-md-8">
+                        <input id="shipmentStatus" type="text" value="Shipment Created" disabled="" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Shipment Sequence:</label>
+                     <div class="col-sm-8">
+                        <input id="shipmentSequenceid" type="text" ng-model="shipmentSequence" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Last Processing Point:</label>
+                     <div class="col-sm-8">
+                        <input id="lastProcessingPointid" type="text" ng-model="lastProcessingPoint" required="" class="form-control">
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id = "shipmentBtn" class="btn btn-info" ng-click="updatePalletStatus();createShipment();">Submit</button>
+			      
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal fade" id="updateShipmentModal" role="dialog" data-backdrop = "static">
+      <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header" style="background-color:darkcyan;">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Update Shipment</h4>
+            </div>
+            <div class="modal-body" style="background-color:azure;">
+               <form role="form" class="form-horizontal">
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Shipment ID:</label>
+                     <div class="col-sm-8">
+                        <input id="shipmentID" type="text" ng-model="selectdata.shipmentBarCode" required="" disabled=""  class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Pallet Array:</label>
+                     <div class="col-sm-8">
+                        <input id="PalletArrayid" type="text" ng-model="selectdata.paletteArray" disabled="" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Product Array:</label>
+                     <div class="col-sm-8">
+                        <input id="productArrayid" type="text" ng-model="selectdata.productarray" disabled="" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Pallet Weight:</label>
+                     <div class="col-sm-8">
+                        <input id="palletWeightid" type="text" ng-model="selectdata.weight" required="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Shipment Status:</label>
+                     <div class="col-sm-8">
+                        <input id="shipmentStatusid" type="text" ng-model="selectdata.status" required="" disabled="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Shipment Sequence:</label>
+                     <div class="col-sm-8">
+                        <input id="shipmentSequenceid" type="text" ng-model="selectdata.shipmentSequence" required="" disabled="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="manufacturer" class="col-sm-4 control-label">Last Processing Point:</label>
+                     <div class="col-sm-8">
+                        <input id="lastProcessingPointid" type="text" ng-model="selectdata.last_process_point" required="" class="form-control">
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-info" ng-click="updateShipment();">Update</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="modal fade" id="billInfo" role="dialog" data-backdrop = "static">
+      <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header" style="background-color:darkcyan;">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Bill Details</h4>
+            </div>
+             <div class="modal-body" style="background-color:azure;">
+                  <table class="table table-striped table-hover">
+                     <thead>
+                      <tr>
+                        <th style="width: 45%;">Bill of Supply ID:</th>
+                        <td>{{Bill.materialId}}</td>
+                      </tr>
+                      <tr>
+                        <th>Name:</th>
+                        <td>{{Bill.name}}</td>
+                      </tr>
+                      <tr>
+                        <th>Quantity:</th>
+                        <td>{{Bill.quantity}}</td>
+                      </tr>
+                       <tr>
+                        <th>Origin:</th>
+                        <td>{{Bill.origin}}</td>
+                      </tr>
+                      <tr>
+                        <th>Shipped To:</th>
+                        <td>{{Bill.shippedTo}}</td>
+                      </tr>
+                        <tr>
+                        <th>Status:</th>
+                        <td>{{Bill.status}}</td>
+                      </tr>
+                      <tr>
+                        <th>Comments:</th>
+                        <td>{{Bill.comments}}</td>
+                      </tr>
+                     </thead>
+                  </table>
+               </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+     <div class="modal fade" id="shipmentInfo" role="dialog" data-backdrop = "static">
+      <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header" style="background-color:darkcyan;">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Bill Details</h4>
+            </div>
+             <div class="modal-body" style="background-color:azure;">
+                  <table class="table table-striped table-hover">
+                     <thead>
+                      <tr>
+                        <th style="width: 55%;">Shipment ID::</th>
+                        <td>{{selectdata.shipmentBarCode}}</td>
+                      </tr>
+                      <tr>
+                        <th>Pallet Array:</th>
+                        <td>{{selectdata.paletteArray}}</td>
+                      </tr>
+                      <tr>
+                        <th>Product Array Array:</th>
+                        <td>{{selectdata.productarray}}</td>
+                      </tr>
+                     
+                      <tr>
+                        <th>Pallet Weight Array:</th>
+                        <td>{{selectdata.weight}}</td>
+                      </tr>
+                       <tr>
+                        <th>Shipment Status:</th>
+                        <td>{{selectdata.status}}</td>
+                      </tr>
+                      <tr>
+                        <th>Shipment Sequence:</th>
+                        <td>{{selectdata.shipmentSequence}}</td>
+                      </tr>
+                          <tr>
+                        <th>Last Processing Point:</th>
+                        <td>{{selectdata.last_process_point}}</td>
+                      </tr>
+                        <tr>
+                        <th style="vertical-align: top;">Shipping Route:</th>
+                        <td>{{selectdata.shipmenttrace}}</td>
+                      </tr>
+                       
+                      
+                    </thead>
+                  </table>
+               </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>

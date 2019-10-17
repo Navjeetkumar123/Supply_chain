@@ -1,0 +1,61 @@
+<div ng-controller="verificationController">
+   <div class="container-fluid">
+      <div class="divclass">
+         <form role="form" class="form-horizontal">
+            <div class="form-group">
+               <label for="seller" class="col-sm-3 control-label">Enter Shipment ID/Pallet ID/Product ID:</label>
+               <div class="col-sm-4">
+                  <input id="shipmentOrPalletID" type="text" ng-model="shipmentOrPalletID" required="" class="form-control">
+               </div>
+               <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="verifyLogisticsDistributor();">Submit</button>
+            </div>
+            <div id="auth"></div>
+         </form>
+      </div>
+      <form id="blockDetails">
+         <div class="form-group">
+            <div class="col-sm-12">
+               <div class="panel panel-primary">
+                  <div class="panel-heading"></div>
+                  <div class="panel-body">
+                     <div id="title"></div>
+                     <table class="table table-striped table-bordered table-hover">
+                        <tr>
+                           <th>Shipment Barcode</th>
+                           <td>{{shipments[0].shipmentBarCode}}</td>
+                        </tr>
+                        <tr>
+                           <th>Pallete Array</th>
+                           <td>{{shipments[0].paletteArray}}</td>
+                        </tr>
+                    
+                        <tr>
+                           <th>Palette Weight</th>
+                           <td>{{shipments[0].weight}}</td>
+                        </tr>
+                        <tr>
+                           <th>Shipment Status</th>
+                           <td>{{shipments[0].status}}</td> 
+                        </tr>
+                        <tr>
+                           <th>Shipment Sequence</th>
+                           <td>{{shipments[0].shipmentSequence}}</td>
+                        </tr>
+                        <tr>
+                           <th>Last Processing Point</th>
+                           <td>{{shipments[0].last_process_point}}</td>
+                        </tr>
+                        <tr>
+                           <th>Shipment Route</th>
+                           <td>{{shipments[0].shipmenttrace}}</td>
+                        </tr>
+                     </table>
+                     <div id="tableTrans"></div>
+                  </div>
+               </div>
+               ;
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

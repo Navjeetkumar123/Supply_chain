@@ -1,0 +1,255 @@
+<div ng-controller="logisticsController">
+   <div class="pull-right" style="margin-top:2px;">
+      <button type="button" id="update" class="btn btn-primary btn-md" data-toggle="modal">Update Shipment</button>
+   </div>
+   <div class="panel-group">
+      <div class="panel panel-primary">
+         <div class="panel-heading">Shipments Available</div>
+         <div class="panel-body">
+            <table class="table  table-striped" style="background-color:aliceblue;">
+               <thead style="background-color:antiquewhite;">
+                  <tr>
+                     <th>Select</th>
+                     <th>Shipment ID</th>
+                     <th>Pallet Array</th>
+                     <th>Product Array</th>
+                     <th>Pallet Weight</th>
+                     <th>Shipment Status</th>
+                     <th>Shipment Route</th>
+                     <th>Last Processing Point</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="shipment in shipments | orderBy :'-shipmentBarCode'">
+                     <td><input type="radio" ng-click="selectRow(shipment)" name="logisticsShipmentRadio"></td>
+                     <td><a href="" data-toggle="modal" data-target = "#avilableShipInfo" ng-click = "selectRow(shipment);" id="shippinginfo">{{shipment.shipmentBarCode}}</a></td>
+                     <td>{{shipment.paletteArray}}</td>
+                     <td>{{shipment.productarray}}</td>
+                     <td>{{shipment.weight}}</td>
+                     <td>{{shipment.status}}</td>
+                     <td>{{shipment.shipmentSequence}}</td>
+                     <td>{{shipment.last_process_point}}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+    <div class="modal fade" id="avilableShipInfo" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkcyan;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Available Shipment Details</h4>
+                </div> 
+                <div class="modal-body" style="background-color:azure;">
+                    <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th style="width: 100%;">Shipment ID::</th>
+                        <td>{{selectedData.shipmentBarCode}}</td>
+                      </tr>
+                      <tr>
+                        <th>Pallet Array:</th>
+                        <td>{{selectedData.paletteArray}}</td>
+                      </tr>
+					              <tr>
+                        <th>Product Array:</th>
+                        <td>{{selectedData.productarray}}</td>
+                      </tr>
+                      
+                      <tr>
+                        <th>Pallet Weight Array:</th>
+                        <td>{{selectedData.weight}}</td>
+                      </tr>
+                       <tr>
+                        <th>Shipment Status:</th>
+                        <td>{{selectedData.status}}</td>
+                      </tr>
+                      <tr>
+                        <th>Shipment Sequence:</th>
+                        <td>{{selectedData.shipmentSequence}}</td>
+                      </tr>
+                          <tr>
+                        <th>Last Processing Point:</th>
+                        <td>{{selectedData.last_process_point}}</td>
+                      </tr>
+                        <tr>
+                        <th style="vertical-align: top;">Shipping Route:</th>
+                        <td>{{selectedData.shipmenttrace}}</td>
+                      </tr>
+                       
+                      
+                    </thead>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+</div>
+   <div class="panel-group">
+      <div class="panel panel-primary">
+         <div class="panel-heading">Shipments In Transit</div>
+         <div class="panel-body">
+            <table class="table  table-striped" style="background-color:aliceblue;">
+               <thead style="background-color:antiquewhite;">
+                  <tr>
+                     <th>Shipment ID</th>
+                     <th>Pallet Array</th>
+                     <th>Product Array</th>
+                     <th>Pallet Weight</th>
+                     <th>Shipment Status</th>
+                     <th>Shipment Route</th>
+                     <th>Last Processing Point</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="logisticsShipments in logisticsShipment | orderBy :'-shipmentBarCode'">
+                     <td><a href="" data-toggle="modal" data-target = "#ShipInTransitInfo" ng-click = "shipmentInTransit(logisticsShipments)" id="shippinginfo">{{logisticsShipments.shipmentBarCode}}</a></td>
+                     <td>{{logisticsShipments.paletteArray}}</td>
+                     <td>{{logisticsShipments.productarray}}</td>
+                     <td>{{logisticsShipments.weight}}</td>
+                     <td>{{logisticsShipments.status}}</td>
+                     <td>{{logisticsShipments.shipmentSequence}}</td>
+                      <td>{{logisticsShipments.last_process_point}}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+    <div class="modal fade" id="ShipInTransitInfo" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:darkcyan;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Shipment In Transit Details</h4>
+                </div>
+                <div class="modal-body" style="background-color:azure;">
+                    <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th style="width: 100%;">Shipment ID::</th>
+                        <td>{{shipmentInTransit.shipmentBarCode}}</td>
+                      </tr>
+                      <tr>
+                        <th>Pallet Array:</th>
+                        <td>{{shipmentInTransit.paletteArray}}</td>
+                      </tr>
+                      <tr>
+                        <th>Product Array Array:</th>
+                        <td>{{shipmentInTransit.productarray}}</td>
+                      </tr>
+                     
+                      <tr>
+                        <th>Pallet Weight Array:</th>
+                        <td>{{shipmentInTransit.weight}}</td>
+                      </tr>
+                       <tr>
+                        <th>Shipment Status:</th>
+                        <td>{{shipmentInTransit.status}}</td>
+                      </tr>
+                      <tr>
+                        <th>Shipment Sequence:</th>
+                        <td>{{shipmentInTransit.shipmentSequence}}</td>
+                      </tr>
+                          <tr>
+                        <th>Last Processing Point:</th>
+                        <td>{{shipmentInTransit.last_process_point}}</td>
+                      </tr>
+                        <tr>
+                        <th style="vertical-align: top;">Shipping Route:</th>
+                        <td>{{shipmentInTransit.shipmenttrace}}</td>
+                      </tr>
+                       
+                      
+                    </thead>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+</div>
+   <!-- Update Bill Modal -->
+   <div class="modal fade" id="updateShipment" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header" style="background-color:darkcyan;">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">Update Shipment</h4>
+            </div>
+            <div class="modal-body" style="background-color:azure;">
+               <form role="form" class="form-horizontal">
+                  <div class="form-group">
+                     <label for="logistics-partner" class="col-sm-4 control-label">Shipment ID:</label>
+                     <div class="col-sm-8">
+                        <input id="shipmentid" type="text" ng-model="selectedData.shipmentBarCode" required="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="logistics-partner" class="col-sm-4 control-label">Pallet Array:</label>
+                     <div class="col-sm-8">
+                        <select multiple style="width:48%" ng-model="selectedPallet" ng-blur="selectPallet(selectedPallet)">
+                           <option selected = "selected" ng-repeat="x in count">{{x}}</option>
+                        </select>
+                     </div>
+                  </div> 
+			
+                  <div class="form-group">
+                     <label for="logistics-partner" class="col-sm-4 control-label">Product Array:</label>
+                     <div class="col-sm-8">
+                        <input id="productArray" type="text" ng-model="productArray" required="" disabled="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="logistics-partner" class="col-sm-4 control-label">Pallet Weight Array:</label>
+                     <div class="col-sm-8">
+                        <input id="weight" type="text" ng-model="selectedData.weight" required="" ng-blur="selectWeight(selectedData.weight)" class="form-control">
+                        (In Kgs(eg- 200:100))
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="logistics-partner" class="col-sm-4 control-label">Shipment Status:</label>
+                     <div class="col-sm-8">
+                        <input id="status" type="text"  value="In-Transit" ng-model = "selectedData.status" required="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="logistics-partner" class="col-sm-4 control-label">Shipment Sequence:</label>
+                     <div class="col-sm-8">
+                        <input id="sequence" type="text" ng-model="selectedData.shipmentSequence" required="" class="form-control" disabled="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="logistics-partner" class="col-sm-4 control-label">Last Processing Point:</label>
+                     <div class="col-sm-8">
+                        <input id="Lpp" type="text" ng-model="selectedData.last_process_point" required="" class="form-control">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="route" class="col-sm-4 control-label">Shipping Route:</label>
+                     <div class="col-sm-8">
+                     {{selectedData.shipmenttrace}}
+                     </div>
+                  </div>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" id = "shipmentBtn" class="btn btn-info" ng-click="updateShipment();">Update</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

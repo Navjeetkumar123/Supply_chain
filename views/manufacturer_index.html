@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+   <head>
+      <title>Manufacturer</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400" rel="stylesheet" type="text/css">
+      <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
+      <!-- CSS Libs-->
+      <link rel="stylesheet" type="text/css" href="resources/lib/css/bootstrap.min.css">
+      
+      <link rel="stylesheet" type="text/css" href="resources/lib/css/bootstrap.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js">
+      <!-- CSS App-->
+      
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400" rel="stylesheet" type="text/css">
+      <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
+      <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+      <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+      <script type="text/javascript" src="js/angular/angular.js"></script>
+      <script type="text/javascript" src="js/angular/angular-route.js"></script>
+      <script type="text/javascript" src="js/bootbox.min.js"></script>
+       <script type="text/javascript" src="js/dirPagination.js"></script>
+      <script type="text/javascript" src="js/app.js"></script>
+      <script type="text/javascript" src="js/controllers/manufacturerController.js"></script>
+      <script type="text/javascript" src="js/controllers/explorerController.js"></script>
+      <script type="text/javascript" src="js/controllers/transactionController.js"></script>
+      
+      <script type="text/javascript" src="js/web3.js"></script>
+      <script type="text/javascript" src="js/web3.min.js"></script>
+      <script type="text/javascript" src="js/conf.js"></script>
+     
+      <script type="text/javascript" src="js/bignumber.js"></script>
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="resources/lib/js/jquery.min.js"></script>
+      <script type="text/javascript" src="resources/lib/js/bootstrap.min.js"></script>
+      <script data-require="angular-ui@*" data-semver="0.4.0" src="//rawgithub.com/angular-ui/angular-ui/master/build/angular-ui.js" context="anonymous"></script>
+      <style>
+         html, body{
+         padding-right: 0px !important; 
+         position: relative!important;
+         }
+         @media screen and (min-width: 868px) {
+         .modal-dialog {
+         width: 600px;
+         /* New width for default modal */
+         }
+         .modal-sm {
+         width: 350px;
+         /* New width for small modal */
+         }
+         }
+         @media screen and (min-width: 992px) {
+         .modal-lg {
+         width: 950px;
+         /* New width for large modal */
+         }
+         }
+         .img-responsive{
+         border-radius: 100%;
+         } 
+         .btn-primary{
+         background-color: rgba(5, 43, 107, 0.33);
+         }
+         .hoversd li a:hover {
+         background-color: black;
+         }
+      </style>
+   </head>
+   <body>
+      <nav class="navbar navbar-primary" style="background-color:black">
+         <div class="container-fluid">
+            <ul class="nav navbar-nav navbar-left hoversd">
+               <li>
+               <li class="active"> <a href='manufacturer_index#/manufacturer' style="color:white;font-size:20px;">Dashboard</a></li>
+               </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right hoversd">
+               <li class="active"> <a href='manufacturer_index#/viewExplorer' style="color:white;font-size:20px;">View Explorer</a></li>
+               <li class="active"> <a href="manufacturer_index#/viewTransaction" style="color:white;font-size:20px;">View Transaction</a></li>
+              
+               <li class="active"> <a href="login" style="color:white;font-size:20px;">Logout</a></li>
+            </ul>
+         </div>
+      </nav>
+      <div class="container-fluid">
+         <div class = "ng-view">
+         </div>
+      </div>
+   </body>
+</html>

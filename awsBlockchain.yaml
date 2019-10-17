@@ -1,0 +1,48 @@
+Description: "Basic Initial Member template"
+Parameters:
+  MemberName:
+    Type: String
+  MemberDescription:
+    Type: String
+  MemberAdminUsername:
+    Type: String
+  MemberAdminPassword:
+    Type: String
+  NetworkName:
+    Type: String
+  NetworkDescription:
+    Type: String
+  Edition:
+    Type: String
+  ThresholdPercentage:
+    Type: Number
+  ThresholdComparator:
+    Type: String
+  ProposalDurationInHours:
+    Type: Number
+
+Resources:
+  Member:
+    Type: "AWS::ManagedBlockchain::Member"
+    Properties:
+      NetworkConfiguration:
+        Name: !Ref NetworkName
+        Description: !Ref NetworkDescription
+        Framework: "HYPERLEDGER_FABRIC"
+        FrameworkVersion: "1.2"
+        NetworkFrameworkConfiguration:
+          NetworkFabricConfiguration:
+            Edition: !Ref Edition
+        VotingPolicy:
+          ApprovalThresholdPolicy:
+            ThresholdPercentage: !Ref ThresholdPercentage
+            ProposalDurationInHours: !Ref ProposalDurationInHours
+            ThresholdComparator: !Ref ThresholdComparator
+      MemberConfiguration:
+        Name: !Ref MemberName
+        Description: !Ref MemberDescription
+        MemberFrameworkConfiguration:
+          MemberFabricConfiguration:
+            AdminUsername: !Ref MemberAdminUsername
+            AdminPassword: !Ref MemberAdminPassword
+

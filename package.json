@@ -1,0 +1,32 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "HPE",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "Blokchain",
+    "Ethereum"
+  ],
+  "author": "Wipro",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "async": "^2.5.0",
+    "body-parser": "^1.17.2",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "crypto-js": "^3.1.9-1",
+    "ejs": "^2.5.7",
+    "express": "^4.17.1",
+    "express-session": "^1.15.5",
+    "mongodb": "^2.2.31",
+    "mongojs": "^2.4.1",
+    "request": "^2.81.0",
+    "solc": "^0.4.15",
+    "util": "^0.10.3",
+    "web3": "^0.20.0"
+  }
+}

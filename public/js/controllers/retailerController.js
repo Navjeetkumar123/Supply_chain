@@ -8,60 +8,6 @@ function retailerController($scope,$rootScope,$location,$http,$window){
     
          var sender ;
  var palletString ;
- 
-    $scope.selectPallet=function(_selectedPallet){
-		
-      console.log("Inside selectPallet");
-		console.log(_selectedPallet); 
-       
-        palletString = _selectedPallet[0];
-        $scope.productArray = '';
-          var productDetails = "";
-		  var prodcode = "";
-        for(var i=0;i<_selectedPallet.length;i++){
-			console.log( _selectedPallet[i]);
-        $http.get("/getProductArray/" + _selectedPallet[i]).success(function(data) {
-             prodcode = "";
-            
-            console.log("Successfully got ProductArray  " + data);
-            for (var i in data) {
-                var temp = JSON.parse(data[i]);
-                
-                prodcode = prodcode + temp.productBarCode + ":";
-            }
-             console.log("ProductArray =" + prodcode)
-			var prodcode = prodcode.substring(0, prodcode.length-1);
-            productDetails = productDetails + prodcode + " || ";
-			$scope.productArray = productDetails.substring(0, productDetails.length-4);
-			  console.log("ProductArray UI =" + productDetails);
-        }).error(function(data) {
-            console.log("Error while calling productArrayList");
-        })
-		
-		
-        console.log("productDetails = " + productDetails);
-        
-        console.log("ProductArray =" + $scope.productArray)
-
-		
-    }
-       for(var i=1;i<_selectedPallet.length;i++){
-        palletString = palletString + " : "+ _selectedPallet[i] ;
-       }
-  
-    console.log("palletString = "+palletString);
-}
-   $scope.selectrow = function(_x){
-       // console.log(_x);
-        $scope.selectedData = _x;
-        console.log($scope.selectedData);
-          var temp = [];
-        var Pallet = $scope.selectedData.paletteArray;
-        var pCount = Pallet.split(" : ");
-        $scope.count = pCount;
-        console.log("Pcount = " + $scope.count);
-        console.log("selectedData Pallet = " + $scope.selectedData.paletteArray);
-      }
 	  
 	  
 	  
@@ -79,31 +25,32 @@ function retailerController($scope,$rootScope,$location,$http,$window){
         console.log("shipmentProcessed");
         $scope.processed = _x
         console.log($scope.processed);
-      }
-
+      } 
 	  
-	  
-	  
-	  
-   $scope.updateShipment = function() {
+   $scope.createPO = function() {
         if ($scope.selectedData.last_process_point != null && $scope.selectedData.weight != null && $scope.selectedPallete != null) {
-            console.log("updateShipment")
+            console.log("createPO")
             var fd = new FormData();
-            console.log($scope.productArray);
-            console.log(palletString);
-            console.log($scope.selectedData.weight);
-            console.log($scope.selectedData.status);
-            console.log($scope.selectedData.shipmentSequence);
-            console.log($scope.selectedData.last_process_point);
-            fd.append('shipmentID', $scope.selectedData.shipmentBarCode);
-            fd.append('palletArray', palletString);
-            fd.append('productArray', $scope.productArray);
-            fd.append('palletWeight', $scope.selectedData.weight);
-            fd.append('shipmentStatus', "In-Store");
-            fd.append('shipmentsquence', $scope.selectedData.shipmentSequence);
-            fd.append('lastProcessingPoint', $scope.selectedData.last_process_point);
-            $scope.traceValue = new Date() + " | " + palletString + " | " + $scope.selectedData.weight + " | " + "In-Store"  +" | " + $scope.selectedData.last_process_point+" | " +  $scope.productArray;
-            fd.append('traceValue', $scope.traceValue);
+            fd.append('poID', poID);
+            fd.append('productID', productID);
+            fd.append('productName', $scope.productName);
+            //console.log("materialIdsString::" + materialIdsString);
+            fd.append('sellerName', $scope.sellerName);
+            fd.append('sellerID', $scope.sellerID);
+            fd.append('buyerName', $scope.sellerName);
+            fd.append('buyerID', $scope.sellerID);
+            fd.append('logisticsID', $scope.logisticsID);
+            fd.append('logisticsName', $scope.logisticsName);
+            fd.append('noOfItem', $scope.noOfItem);
+            fd.append('price', $scope.price);
+            fd.append('totalPrice', $scope.totalPrice);
+            fd.append('orderDate', $scope.orderDate);
+            fd.append('manufacturingLocation', $scope.manufacturingLocation);
+            fd.append('manufacturingDate', $scope.manufacturingDate);
+            fd.append('deliveryAddress', $scope.deliveryAddress);
+            fd.append('deliverDate', $scope.deliverDate);
+            fd.append('status', $scope.status);
+
 
             //   console.log($scope.shipmentSequence);
             //   console.log($scope.lastProcessingPoint);
@@ -111,7 +58,7 @@ function retailerController($scope,$rootScope,$location,$http,$window){
 
             var request = {
                 method: 'POST',
-                url: '/updateShipment',
+                url: '/createPO',
                 data: fd,
                 transformRequest: angular.identity,
                 headers: {
@@ -124,37 +71,13 @@ function retailerController($scope,$rootScope,$location,$http,$window){
                     window.location.reload();
                 }, 5000);
             }).error(function(data) {
-                console.log("Error while calling updateShipment");
+                console.log("Error while calling createPO");
             })
         } else {
             bootbox.alert("Wanrning: Fields are empty.");
         }
     }
-		
-	//get getProductArray new
-	$scope.productArray1 = " ";
-	 $scope.productArrayList = function(_x) {
-		    console.log("productArrayList");
-			$scope.productList=_x;
-			console.log($scope.productList);
-			var palletID = $scope.productList.split(" : ");
-			console.log(" palletID Size ="+palletID.length);
-			var products =" ";
-			for(var i=0;i<palletID.length;i++){
-				console.log("PalletID = "+palletID[i]);
-        $http.get("/getProductArray/"+palletID[i]).success(function(data) {
-           
-					  data = data.replace(/["\\]/g, "");
-					   console.log("Successfully got ProductArray  "+data );
-			$scope.productArray1 = $scope.productArray1+data+" : ";
-					
-			console.log("ProductArray ="+products)
-        }).error(function(data) {
-            console.log("Error while calling productArrayList");
-        })
-			}
-			
-    }
+
 
 	
 	 $http.get('/getuser').success(function(data) {
